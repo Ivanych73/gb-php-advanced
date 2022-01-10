@@ -1,0 +1,13 @@
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3\">
+    {% for good in goods %}
+        <div class="col-sm-4 py-3 px-3">
+            {# <a href="public/detail.php?title={{ good.image_title }}"><img src="images\thumbnail\{{ good.image_title }}" height="200" alt="{{ good.image_title }}"></a> #}
+            {% include 'v-card.html' %}
+        </div>
+        {% if loop.index % 3 == 0 and not loop.last %}
+</div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3\">
+        {% elseif loop.last %}
+</div>
+        {% endif %}
+    {% endfor %}

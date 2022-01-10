@@ -1,0 +1,10 @@
+<a href="../index.php" class="link-primary">Назад в каталог</a>
+<div class="container border border-primary rounded my-3 d-sm-flex justify-content-center">
+    <figure class="figure">
+        <img src="../images/fullsize/{{ good.image_title }}" class="full-size-image py-2" alt="{{ good.image_title }}">
+        <h3 class="h3">{{ good.good_title }}</h3>
+        <p class = "lead">{{ good.description }}</p>
+        <p class = "small">Этот котик стоит&nbsp;{{good.price}}</p>
+        {# <a class="btn btn-sm btn-outline-secondary" href="<?= ADD_TO_CART ?>?id=<?= $id ?>">Купить</a> #}
+    </figure>
+</div>

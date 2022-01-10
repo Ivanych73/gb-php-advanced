@@ -1,0 +1,15 @@
+<div class="container">
+    
+    <div class="row">
+        {% for image in images %}
+            <div class="col-sm-4 py-3 px-3">
+                <a href="public/detail.php?title={{ image.title }}"><img src="images\thumbnail\{{ image.title }}" height="200" alt="{{ image.title }}"></a>
+            </div>
+            {% if loop.index % 3 == 0 and not loop.last %}
+    </div>
+    <div class="row">
+            {% elseif loop.last %}
+    </div>
+            {% endif %}
+        {% endfor %}
+</div>
