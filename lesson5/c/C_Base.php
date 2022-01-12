@@ -18,7 +18,8 @@ abstract class C_Base extends C_Controller
 			$this->authblock = "<a href='index.php?c=User&act=logout'>Выход</a>
 			<a href='index.php?c=User&act=personal'>Личный кабинет</a>";
 		} else {
-			$this->authblock="<a href='index.php?c=User&act=auth'>Войти</a>";
+			$this->authblock="<a href='index.php?c=User&act=auth'>Войти</a>
+			<a href='index.php?c=User&act=register'>Зарегистрироваться</a>";
 		}
 
 	}
