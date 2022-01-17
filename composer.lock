@@ -4,26 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b831a9d564084b05afc12b77a4680455",
+    "content-hash": "eb7cb9f56288946996434450b87bf3ab",
     "packages": [
         {
             "name": "twig/twig",
-            "version": "1.6.0",
+            "version": "v1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9154d27622a349fb1986cb9d48014c464a0e9d5b"
+                "reference": "8ce37115802e257a984a82d38254884085060024"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9154d27622a349fb1986cb9d48014c464a0e9d5b",
-                "reference": "9154d27622a349fb1986cb9d48014c464a0e9d5b",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/8ce37115802e257a984a82d38254884085060024",
+                "reference": "8ce37115802e257a984a82d38254884085060024",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.16-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Twig_": "lib/"
@@ -31,16 +36,24 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com"
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "https://github.com/fabpot/Twig/graphs/contributors",
+                    "role": "Contributors"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
@@ -49,10 +62,11 @@
                 "templating"
             ],
             "support": {
+                "forum": "https://groups.google.com/forum/#!forum/twig-users",
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v1.6.0"
+                "source": "https://github.com/twigphp/Twig/tree/v1.16.0"
             },
-            "time": "2012-02-04T07:34:52+00:00"
+            "time": "2014-07-05T12:19:05+00:00"
         }
     ],
     "packages-dev": [],
@@ -63,5 +77,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
