@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="display-6">
+        Заказы пользователя <?= $_COOKIE['userLogin'] ?>
+    </div>
+    <div class="row py-2">
+        <div class="col-2">Номер заказа</div>
+        <div class="col-2">Сумма заказа</div>
+        <div class="col-2">Дата заказа</div>
+        <div class="col-2">Статус заказа</div>
+        <div class="col-2">Подробнее о заказе</div>
+        <div class="col-2">Отменить заказ</div>
+    </div>
+    {% for order in content_data.orders %}
+        {% include 'order/v-ordersfiltered.html' %}
+    {% endfor %}
+</div>
