@@ -9,7 +9,7 @@
                 <a class="btn btn-sm btn-outline-secondary" href = "index.php?path=detail/{{good.goodId}}">Подробнее</a>
                 <a class="btn btn-sm btn-outline-secondary buy-button" data-id="{{good.goodId}}" href="">Купить</a>
             </div>
-            <small class="text-muted">Стоимость:&nbsp;{{good.price}}</small>
+            <small class="text-muted">Стоимость:&nbsp;<span class="price-item-{{good.goodId}}">{{good.price}}</span></small>
         </div>
     </div>
 </div>

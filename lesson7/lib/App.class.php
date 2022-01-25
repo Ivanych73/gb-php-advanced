@@ -45,10 +45,11 @@ class App
             if (!$_COOKIE['isAuthorized']) {
                 $data['links']['loginMessage'] = "Вы пока не авторизованы";
                 $data['links']['loginLink'] = ['href' => "index.php?path=user/login", 'text' => "Войти"];
-                $data['links']['regLink'] = ['href' => "#"];
+                $data['links']['regLink'] = ['href' => "index.php?path=user/register"];
             } else {
                 $data['links']['loginMessage'] = "Вы вошли, как {$_COOKIE['userName']}";
                 $data['links']['loginLink'] = ['href' => "index.php?path=user/logoff", 'text' => "Выход"];
+                $data['links']['personalLink'] = ['href' => "index.php?path=user/personal", 'text' => "Личный кабинет"];
                 if ($_COOKIE['isAdmin']) {
                     $data['links']['adminLink'] = ['href' => "#"];
                 }
@@ -64,6 +65,7 @@ class App
                 echo $template->render($data);
             } else {
                 if ($_GET['actionSuccess']) $data['actionSuccess'] = true;
+                if ($_GET['ErrMsg']) $data['ErrMsg'] = $_GET['ErrMsg'];
                 echo json_encode($data);
             }
         }

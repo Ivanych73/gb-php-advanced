@@ -45,9 +45,14 @@ class Cart extends Model
         }        
     }
 
-    public function getCart() {
-        $select = "SELECT good_id, quantity from cart where uuid = :uuid";
-        $params = ['uuid' => $_COOKIE['cart_uuid']];
+    public function getCart($orderId = false) {
+        if(!$orderId) {
+            $select = "SELECT good_id, quantity from cart where uuid = :uuid";
+            $params = ['uuid' => $_COOKIE['cart_uuid']];
+        } else {
+            $select = "SELECT good_id, quantity from cart where order_id = :order_id";
+            $params = ['order_id' => $orderId];
+        }
         $cart = db::getInstance()->Select($select, $params);
         $result = [];
         foreach ($cart as $value) {
@@ -63,7 +68,6 @@ class Cart extends Model
         }
         return $result;
     }
-    
 }
 
 ?>

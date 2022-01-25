@@ -1,0 +1,105 @@
+<div class="container">
+        <div class="row py-2">
+            <div class="col-4">Номер заказа</div>
+            <div class="col-4">{{content_data.id}}</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-4">Дата заказа</div>
+            <div class="col-4">{{content_data.date}}</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-6">Информация о заказчике</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-1"></div>
+            <div class="col-4">Имя</div>
+            <div class="col-4">{{content_data.name}}</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-1"></div>
+            <div class="col-4">Электронная почта</div>
+            <div class="col-4">{{content_data.email}}</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-1"></div>
+            <div class="col-4">Телефон</div>
+            <div class="col-4">{{content_data.phone}}</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-1"></div>
+            <div class="col-4">Адрес доставки</div>
+            <div class="col-4">{{content_data.address}}</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-6">Состав заказа</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-1"></div>
+            <div class="col-4">Наименование товара</div>
+            <div class="col-4">Количество</div>
+        </div>
+
+        {% for good in content_data.goodsInOrder %}
+        <div class="row py-2">
+            <div class="col-1"></div>
+            <div class="col-4">{{good.goodTitle}}</div>
+            <div class="col-4">{{good.quantity}}</div>
+        </div>
+        {% endfor %}
+
+        <div class="row py-2">
+            <div class="col-4">Общая стоимость</div>
+            <div class="col-4">{{content_data.total_price}}</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-4">Статус заказа</div>
+            <div class="col-4">{{content_data.status}}</div>
+        </div>
+        <div class="row py-2">
+            <div class="col-4">Комментарии к заказу</div>
+            <div class="col-4">{{content_data.comments}}</div>
+        </div>
+        {% if content_data.open %}
+
+        <div class="lead">Заказ доступен для редактирования!</div>
+        <a 
+            href="index.php?path=order/cancel/{{content_data.id}}"
+            class="btn btn-secondary">
+            Отменить заказ № {{content_data.id}}
+        </a>
+        {% else %}
+
+        <div class="lead">Заказ закрыт и недоступен для редактирования!</div>
+
+        {% if content_data.asAdmin %}
+        <form action="updateorder.php" method="get">
+            <label for="orderstatus">Установить новый статус заказа</label>
+            <select name="status" id="orderstatus">
+                <option 
+                    value="<?= STARTED ?>"
+                    <?= ($order['statusId'] == STARTED) ? "selected" : "" ?>
+                >
+                    Принят в работу
+                </option>
+                <option
+                    value="<?= IN_PROGRESS ?>"
+                    <?= ($order['statusId'] == IN_PROGRESS) ? "selected" : "" ?>
+                >
+                    Обрабатывается            
+                </option>
+                <option
+                    value="<?= IS_BEING_DELIVERED ?>"
+                    <?= ($order['statusId'] == IS_BEING_DELIVERED) ? "selected" : "" ?>
+                >
+                    Передан в службу доставки
+                </option>
+                <option value="<?= SUCCESS ?>">Успешно завершен</option>
+                <option value="<?= CANCELLED_BY_CLIENT ?>">Отменен клиентом</option>
+                <option value="<?= CANCELLED_BY_SHOP ?>">Отменен магазином</option>
+            </select>
+            <input type="hidden" name="id" value="<?= $order['id'] ?>">
+            <input type="submit" class="btn btn-primary" value="Сохранить новый статус заказа">
+        </form>
+        {% endif %}
+        {% endif %}
+</div>

@@ -8,7 +8,7 @@
         <h3 class="h3">{{ content_data.good.goodTitle }}</h3>
         <p class = "lead">{{ content_data.good.description }}</p>
         <p class = "small">Этот котик стоит&nbsp;{{content_data.good.price}}</p>
-        <a class="btn btn-sm btn-outline-secondary" href="#">Купить</a>
+        <a class="btn btn-sm btn-outline-secondary buy-button" data-id="{{content_data.good.goodId}}" href="#">Купить</a>
     </figure>
     {% endif %}
 </div>
