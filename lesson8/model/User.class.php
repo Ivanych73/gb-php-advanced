@@ -52,6 +52,15 @@ class User extends Model {
         ];
     }
 
+    private function getHash($password) {
+        $letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        for ($i = 0; $i < 63; $i++) {
+            $salt .= substr($letters, rand(0, 61), 1);
+        }
+        $password = md5($password.$salt);
+        return ['password' => $password, 'salt' => $salt];
+    }
+
     public static function login($login, $pass)
     {
         $user = db::getInstance()->Select(
@@ -100,6 +109,58 @@ class User extends Model {
             $user = db::getInstance()->Select($select, $params);
             return $user[0];
         }
+    }
+
+    public function save($userData) {
+        if(!$_COOKIE['isAuthorized']) {
+            return ['success' => false, 'message' => "Пользователь не авторизован!"];
+        }else {
+            $params = $userData;
+            if(array_key_exists('pass', $params)) {
+                $hash = $this->getHash($params['pass']);
+                $params['pass'] = $hash['password'];
+                $params['salt'] = $hash['salt'];
+            };
+            $query = "UPDATE users SET";
+            $i = 0;
+            foreach ($params as $key => $value){
+                $query .= " $key = :$key";
+                $i++;
+                if($i<count($params)) {
+                    $query .= ", ";
+                }
+            }
+            $query .= " WHERE id = :id";
+            $params['id'] = $_COOKIE['userId'];
+            $result = db::getInstance()->Query($query, $params);
+            if($result) $message = "Данные пользователя успешно обновлены!";
+            else $message = "Ошибка обновления данных пользователя!";
+            return ['success' => $result, 'message' => $message];
+        }
+    }
+
+    public function new($userData) {
+            $select = "SELECT id FROM users where login = :login";
+            $params['login'] = $userData['login'];
+            $result = count(db::getInstance()->Select($select, $params));
+            if ($result) return [
+                'success' => false,
+                'message' => "Пользователь с таким логином уже зарегистрирован! Придумайте другой логин!"
+            ];
+            else{
+                $params = $userData;
+                if(array_key_exists('pass', $params)) {
+                    $hash = $this->getHash($params['pass']);
+                    $params['pass'] = $hash['password'];
+                    $params['salt'] = $hash['salt'];
+                };
+                $query = "INSERT INTO users (login, pass, salt, is_customer, is_admin) VALUES (:login, :pass, :salt, 1, 0)";
+                $result = db::getInstance()->Query($query, $params);
+                if($result) $message = "Вы успешно зарегистрированы!";
+                else $message = "Ошибка регистрации пользователя!";
+                return ['success' => $result, 'message' => $message];
+            }
+
     }
     
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 24 2022 г., 16:59
+-- Время создания: Янв 31 2022 г., 08:40
 -- Версия сервера: 5.7.33
 -- Версия PHP: 7.4.21
 
@@ -61,7 +61,18 @@ INSERT INTO `cart` (`id`, `good_id`, `quantity`, `user_id`, `order_id`, `uuid`) 
 (43, 8, 2, 10, 15, NULL),
 (44, 1, 1, 11, 16, NULL),
 (45, 7, 1, 11, 16, NULL),
-(46, 10, 1, 11, 16, NULL);
+(46, 10, 1, 11, 16, NULL),
+(48, 1, 1, 10, 17, NULL),
+(49, 9, 1, 10, 17, NULL),
+(50, 8, 1, 13, 18, NULL),
+(51, 12, 3, 13, 18, NULL),
+(53, 11, 3, 14, 19, NULL),
+(55, 5, 1, 14, 19, NULL),
+(56, 1, 1, 9, 20, NULL),
+(58, 8, 3, 9, 20, NULL),
+(59, 1, 1, 10, 21, NULL),
+(60, 8, 1, 10, 21, NULL),
+(61, 12, 3, 10, 21, NULL);
 
 -- --------------------------------------------------------
 
@@ -83,9 +94,9 @@ CREATE TABLE `catalog` (
 INSERT INTO `catalog` (`id`, `title`, `price`, `description`) VALUES
 (1, 'Два толстых котика', 55, 'Два толстых котика удивленно глядят из дверного проема'),
 (3, 'Наглый котик \"коровка\"', 48, 'Наглый котик расцветки \"коровка\" оперся передними лапами о другого черного котика'),
-(5, 'Толстый полосатый котик', 39, 'Толстый полосатый котик просто зевает'),
+(5, 'Толстый полосатый котик', 45, 'Толстый полосатый котик просто зевает'),
 (7, 'Рыжий котик', 41, 'Рыжий котик умильно спит'),
-(8, 'Два белых котика', 62, 'Два белых котика вылизывают друг дружку.'),
+(8, 'Два белых котика', 65, 'Два белых котика вылизывают друг дружку.'),
 (9, 'Бело-рыжий котенок', 49, 'Бело-рыжий котенок очень серьезно смотрит на Вас'),
 (10, 'Британцы в шапочках', 58, 'Два британских котика в смешных шапочках сидят на диване с очень важным видом'),
 (11, 'Толстый белый', 42, 'Толстый белый котик, в шапочке, как корона 18 века, сидит враскоряку'),
@@ -100,8 +111,8 @@ INSERT INTO `catalog` (`id`, `title`, `price`, `description`) VALUES
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `title` varchar(63) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pathbig` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pathsmall` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pathbig` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pathsmall` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sizebig` int(11) DEFAULT NULL,
   `sizesmall` int(11) DEFAULT NULL,
   `clicks` int(11) DEFAULT NULL,
@@ -147,13 +158,18 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `status_id`, `date`, `total_price`, `name`, `email`, `phone`, `address`, `comments`) VALUES
-(10, 9, 1, '2021-12-12', 319, 'Заказчик 1', '1@1.ru', '71234567890', '1001 Rose Bowl Dr, Pasadena, CA 91103, Соединенные Штаты', ''),
-(11, 10, 5, '2021-12-12', 256, 'Заказчик 2', '2@2.ru', '80987654321', '1200 East California Boulevard Pasadena, California 91125', ''),
-(12, 10, 6, '2021-12-12', 168, 'Заказчик 2', '2@2.ru', '80987654321', '1200 East California Boulevard Pasadena, California 91125', ''),
+(10, 9, 3, '2021-12-12', 319, 'Заказчик 1', '1@1.ru', '71234567890', '1001 Rose Bowl Dr, Pasadena, CA 91103, Соединенные Штаты', ''),
+(11, 10, 4, '2021-12-12', 256, 'Заказчик 2', '2@2.ru', '80987654321', '1200 East California Boulevard Pasadena, California 91125', ''),
+(12, 10, 2, '2021-12-12', 168, 'Заказчик 2', '2@2.ru', '80987654321', '1200 East California Boulevard Pasadena, California 91125', ''),
 (13, 11, 3, '2021-12-13', 213, 'Заказчик 3', '3@3.ru', '81231231212', '45 Rockefeller Plaza, New York, NY 10111, Соединенные Штаты', ''),
 (14, 10, 5, '2022-01-24', 87, 'Заказчик 2', '2@2.ru', '80987654321', '1200 East California Boulevard Pasadena, California 91125', ''),
-(15, 10, 5, '2022-01-24', 214, 'Заказчик 2', '2@2.ru', '80987654321', '1200 East California Boulevard Pasadena, California 91125', ''),
-(16, 11, 1, '2022-01-24', 154, 'Заказчик 3', '3@3.ru', '81231231212', '45 Rockefeller Plaza, New York, NY 10111, Соединенные Штаты', '');
+(15, 10, 2, '2022-01-24', 214, 'Заказчик 2', '2@2.ru', '80987654321', '1200 East California Boulevard Pasadena, California 91125', ''),
+(16, 11, 1, '2022-01-24', 154, 'Заказчик 3', '3@3.ru', '81231231212', '45 Rockefeller Plaza, New York, NY 10111, Соединенные Штаты', ''),
+(17, 10, 5, '2022-01-25', 104, 'Заказчик 2', '2222@2.ru', '80987654321', '1200 East California Boulevard Pasadena, California 91125', ''),
+(18, 13, 5, '2022-01-25', 308, 'Заказчик 4', '4@4.ru', '89114567890', 'Лос-Анджелес, Калифорния 90027, Соединенные Штаты', ''),
+(19, 14, 5, '2022-01-25', 165, 'Заказчик 5', '5@5.ru', '89021112233', '1200 Getty Center Dr, Los Angeles, CA 90049, Соединенные Штаты', ''),
+(20, 9, 4, '2022-01-27', 241, 'Заказчик 1', '1@1.ru', '71234567890', '1001 Rose Bowl Dr, Pasadena, CA 91103, Соединенные Штаты', ''),
+(21, 10, 1, '2022-01-31', 366, 'Заказчик 2', '2222@2.ru', '80987654322', '1200 East California Boulevard Pasadena, California 91125', '');
 
 -- --------------------------------------------------------
 
@@ -230,9 +246,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `pass`, `is_customer`, `is_admin`, `salt`, `name`, `phone`, `email`, `address`) VALUES
-(9, 'admin1', '02dd87039afaf7124ca9c14e5766a9be', 1, 1, '0GrViTNuNtwvDAT6S6gKJB5PP5CEFDHM6GaD2IIfSGm0nOJ3AuyeJ8UJ59mKMe3', 'Заказчик 1', '71234567890', '1@1.ru', '1001 Rose Bowl Dr, Pasadena, CA 91103, Соединенные Штаты'),
-(10, 'user1', 'c56e8355145d929852e71b0193d1d7db', 1, 0, 'YLgG6vSmuli2IZkSTXwYVvLFdQatICadzwZ4g6OQraqgR4XdzHynqYOQ6vDvCkE', 'Заказчик 2', '80987654321', '2@2.ru', '1200 East California Boulevard Pasadena, California 91125'),
-(11, 'user2', 'a5c3b9e4deea8f3ade6fb538e335c151', 1, 0, 'odEmuAlgRJb3MTzIyED4my7vWAqZlQl7zDpPYvST8GguQgzEJVDLdqN028VFaLz', 'Заказчик 3', '81231231212', '3@3.ru', '45 Rockefeller Plaza, New York, NY 10111, Соединенные Штаты');
+(9, 'admin1', '7b1b3cdc9150898d636d02f769ed7277', 1, 1, 'sT4t3Yh9DSHa6iqM4rY83OVS8Ify5lsvmTj8YvD4lWDX981cF0i9Mzh0wTDHNOZ', 'Заказчик 1', '71234567890', '1@1.ru', '1001 Rose Bowl Dr, Pasadena, CA 91103, Соединенные Штаты'),
+(10, 'user1', 'bdd5a6e01c9d74e0b7f4fb31861d1359', 1, 0, 'KSddjD77QYXY4YLWE5wCJBGbjX6PyvPZwIi02cMvQUctEYi6GZju3X1Q2E9hfYk', 'Заказчик 2', '80987654322', '2222@2.ru', '1200 East California Boulevard Pasadena, California 91125'),
+(11, 'user2', 'a5c3b9e4deea8f3ade6fb538e335c151', 1, 0, 'odEmuAlgRJb3MTzIyED4my7vWAqZlQl7zDpPYvST8GguQgzEJVDLdqN028VFaLz', 'Заказчик 3', '81231231212', '3@3.ru', '45 Rockefeller Plaza, New York, NY 10111, Соединенные Штаты'),
+(13, 'user3', '96834bd51e68daddb54814526e9c9aec', 1, 0, 'Xk3H4umG48LDtlFjogkAkFljfuS9J40vW5a6pFeNHqEEL6J7YIPxwEUGx5JQ8oq', 'Заказчик 4', '89114567890', '4@4.ru', 'Лос-Анджелес, Калифорния 90027, Соединенные Штаты'),
+(14, 'user4', '4e14fb547f15da193e7c1fc6e4dca868', 1, 0, 'YsR7EwbcF7ktT9SbMoVDEUxcUuNqHFrcWG77qSNAqwMDfHgXI9pawEUJYMV5bDF', 'Заказчик 5', '89021112233', '5@5.ru', '1200 Getty Center Dr, Los Angeles, CA 90049, Соединенные Штаты');
 
 --
 -- Индексы сохранённых таблиц
@@ -295,25 +313,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT для таблицы `catalog`
 --
 ALTER TABLE `catalog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT для таблицы `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT для таблицы `order_statuses`
@@ -331,7 +349,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

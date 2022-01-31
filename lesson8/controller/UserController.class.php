@@ -8,14 +8,52 @@ class UserController extends Controller
     function __construct()
     {
         parent::__construct();
-        $this->title .= ' - авторизация';
+        $this->title .= ' - пользователь';
+    }
+
+    public function save($userData) {
+        if (!is_array($userData) || count($userData) == 0) return false;
+        else {
+            $user = New User([]);
+            $result = $user->save($userData);
+            return $result;
+        }
+    }
+
+    public function saveAsAjax($data) {
+        if ($data['actionSuccess']) $_GET['actionSuccess'] = false;
+        $result = $this->save($_POST);
+        $_GET['asAjax'] = true;
+        $_GET['ErrMsg'] = $result['message'];
+        $_GET['actionSuccess'] = $result['success'];
+        return $_GET['actionSuccess'];
+    }
+
+    public function new($userData) {
+        if (!is_array($userData) || count($userData) == 0) return false;
+        else {
+            $user = New User([]);
+            $result = $user->new($userData);
+            return $result;
+        }
+    }
+
+    public function newAsAjax($data) {
+        if ($data['actionSuccess']) $_GET['actionSuccess'] = false;
+        $result = $this->new($_POST);
+        $_GET['asAjax'] = true;
+        $_GET['ErrMsg'] = $result['message'];
+        $_GET['actionSuccess'] = $result['success'];
+        return $_GET['actionSuccess'];
     }
 
     public function login($data)
     {
         $fromCart = $_GET['fromCart'];
+        $toAdmin = $_GET['toAdmin'];
         if (!$_POST) {
             if ($fromCart) return ['message' => "Для оформления заказа сначала надо авторизоваться!"];
+            else if($toAdmin) return ['message' => "Чтобы войти в административную часть, надо авторизоваться с правами администратора!"];
             else return ['message' => "Вы пока не авторизованы"];
         } else {
             $user = New User([]);
@@ -27,7 +65,6 @@ class UserController extends Controller
                 else header("Location: index.php?path=user/personal");
             }
         }
-
     }
 
     public function logoff($data)
@@ -48,4 +85,7 @@ class UserController extends Controller
         }else header("Location: index.php?path=user/login");
     }
 
+    public function register($data) {
+
+    }
 }

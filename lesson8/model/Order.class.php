@@ -31,6 +31,68 @@ class Order extends Model {
         ];
     }
 
+    private function parseFilter($filter){
+        $arrToStr = [];
+        $arrParams = [];
+        foreach ($filter as $key => $value) {
+            if ($value !== ''){
+                switch ($key) {
+                    case 'datefrom':
+                        $arrToStr[] = "date >= :datefrom";
+                        $arrParams['datefrom'] = $value;
+                        break;
+                    case 'dateto':
+                        $arrToStr[] = "date <= :dateto";
+                        $arrParams['dateto'] = $value;
+                        break; 
+                    case 'date':
+                        $arrToStr[] = "date = :date";
+                        $arrParams['date'] = $value;
+                        break; 
+                    case 'total_pricefrom':
+                        $arrToStr[] = "total_price >= :total_pricefrom";
+                        $arrParams['total_pricefrom'] = $value;
+                        break;
+                    case 'total_priceto':
+                        $arrToStr[] = "total_price <= :total_priceto";
+                        $arrParams['total_priceto'] = $value;
+                        break;
+                    case 'total_price':
+                        $arrToStr[] = "total_price = :total_price";
+                        $arrParams['total_price'] = $value;
+                        break; 
+                    case 'user_id':
+                        $arrToStr[] = "user_id = :user_id";
+                        $arrParams['user_id'] = $value;
+                        break;
+                    case 'status_id':
+                        if (is_array($value)){
+                            $pdoVarsArr=[];
+                            for ($i=0;$i<count($value); $i++){
+                                $pdoVarName = "status_id$i";
+                                $pdoVarsArr[] = ":$pdoVarName";
+                                $arrParams[$pdoVarName] = $value[$i];
+                            }
+                            $addStr = "status_id in (";
+                            $addStr .= implode(', ',$pdoVarsArr);
+                            $addStr .= ")";
+                            $arrToStr[] = $addStr;
+                        } else {
+                            $arrToStr[] = "status_id = :status_id";
+                            $arrParams['status_id'] = $value;  
+                        }
+                        break;
+                }
+            }
+        }
+        if (count($arrToStr) >0) {
+            $filterStr = " WHERE ";
+            $filterStr .= implode(' AND ', $arrToStr);
+        }
+        
+        return ['filterStr' => $filterStr, 'params' => $arrParams];
+    }
+
     public function getUnsaved() {
         $cart = New Cart([]);
         $result['goods'] = $cart->getCart();
@@ -41,19 +103,20 @@ class Order extends Model {
 
     public function getOrders($filter = []) {
         if(count($filter) !=0) {
-            $filterStr = " WHERE";
-            $i = 0;
-            foreach($filter as $key => $value) {
-                $filterStr .= " $key = :$key";
-                $i++;
-                if($i<count($filter)) {
-                    $filterStr .= " AND";
-                }
+            $filterStr = $this->parseFilter($filter)['filterStr'];
+            $params = $this->parseFilter($filter)['params'];
+        }else $params = $filter;
+        
+        $select = "SELECT orders.id, date, order_statuses.status, total_price, status_id FROM orders JOIN order_statuses ON order_statuses.id = status_id";
+        $select .= $filterStr;
+        $res = (db::getInstance()->Select($select, $params));
+        foreach ($res as &$value) {
+            if (!in_array($value['status'], $this->order_statuses_closed)) {
+                $value['open'] = true;
             }
         }
-        $select = "SELECT orders.id, date, order_statuses.status, total_price FROM orders JOIN order_statuses ON order_statuses.id = status_id";
-        $select .= $filterStr;
-        return (db::getInstance()->Select($select, $filter));
+        return $res;
+        //return $filterStr;
     }
 
     public function setOrderStatus($params = []) {
@@ -66,7 +129,7 @@ class Order extends Model {
     }
 
     public function getDetail($id = 0) {
-        $select = "SELECT orders.id, date, order_statuses.status, total_price, name, email, phone, address, comments FROM orders JOIN order_statuses ON order_statuses.id = status_id WHERE orders.id = :id";
+        $select = "SELECT orders.id, date, order_statuses.status, status_id, total_price, name, email, phone, address, comments FROM orders JOIN order_statuses ON order_statuses.id = status_id WHERE orders.id = :id";
         $params = ['id' => $id];
         $order = db::getInstance()->Select($select, $params)[0];
         if (!in_array($order['status'], $this->order_statuses_closed)) {

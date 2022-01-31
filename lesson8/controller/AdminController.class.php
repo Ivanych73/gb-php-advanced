@@ -2,99 +2,101 @@
 class AdminController extends Controller
 {
     
-    protected $controls = [
-        'pages' => 'Page',
-        'orders' => 'Order',
-        'categories' => 'Category',
-        'goods' => 'Good'
-    ];
+    public $view = 'admin';
+    public $title;
 
-    public $title = 'admin';
+    function __construct()
+    {
+        parent::__construct();
+        $this->title .= ' - панель управления';
+    }
+
+    private function checkPrivileges(){
+        if(!$_COOKIE['isAuthorized'] || !$_COOKIE['isAdmin']) {
+            header("Location: index.php?path=user/login&toAdmin=true");
+        }else return;
+    }
+
+    public function orders() {
+        $this->checkPrivileges();
+        $order = New Order([]);
+        if($_POST) {
+            //$res['orders']['message'] = $order->getOrders($_POST);
+            $res['orders'] = $order->getOrders($_POST);
+            $res['asAdmin'] = true;
+            $res['datefrom'] = $_POST['datefrom'];
+            $res['dateto'] = $_POST['dateto'];
+            $res['total_pricefrom'] = $_POST['total_pricefrom'];
+            $res['total_priceto'] = $_POST['total_priceto'];
+            $res['status_id'] = $_POST['status_id'];
+            return $res;
+        } else {
+            $res['orders'] = $order->getOrders();
+            $res['asAdmin'] = true;
+            return $res;
+        }
+    }
+
+    public function goods() {
+        $this->checkPrivileges();
+        $good = New Good([]);
+        $res['goods'] = $good->getGoods();
+        $res['asAdmin'] = true;
+        return $res;
+    }
+
+    public function editgood($data) {
+        $this->checkPrivileges();
+        $good = New Good(['id' => $data['id']]);
+        return $good->getGoodInfo();
+    }
+
+    public function saveGood() {
+        $this->checkPrivileges();
+        if(!$_POST) {
+            return [
+                'success' => false,
+                'message' => "Нет пост-параметров"
+            ];
+        }else {
+            $good = New Good([]);
+            return $good->updateGood($_POST);
+        }
+    }
+
+    public function saveGoodAsAjax() {
+        $this->checkPrivileges();
+        if ($data['actionSuccess']) $_GET['actionSuccess'] = false;
+        $_GET['asAjax'] = true;
+
+        $res = $this->saveGood();
+        $_GET['ErrMsg'] = $res['message'];
+        $_GET['actionSuccess'] = $res['success'];
+        return $_GET['actionSuccess'];
+    }
+
+    public function deleteGood($data) {
+        $this->checkPrivileges();
+        if(!$data['id']) {
+            return [
+                'success' => false,
+                'message' => "Не указан id товара для удаления!"
+            ];
+        } else {
+            $good = New Good([]);
+            return $good->deleteGood($data['id']);
+        }
+    }
+
+    public function deleteGoodAsAjax($data) {
+        $this->checkPrivileges();
+        if ($data['actionSuccess']) $_GET['actionSuccess'] = false;
+        $_GET['asAjax'] = true;
+
+        $res = $this->deleteGood($data);
+        $_GET['ErrMsg'] = $res['message'];
+        $_GET['actionSuccess'] = $res['success'];
+        return $_GET['actionSuccess'];
+    }
     
-    public function index($data)
-    {
-        return ['controls' => $this->controls];
-    }
-
-    public function control($data)
-    {
-        // Сохранение
-        $actionId = $this->getActionId($data);
-        if ($actionId['action'] === 'save') {
-            $fields = [];
-
-            foreach ($_POST as $key => $value) {
-                $field = explode('_', $key, 2);
-                if ($field[0] == $actionId['id']) {
-                    $fields[$field[1]] = $value;
-                }
-            }
-        }
-
-        if ($actionId['action'] === 'create') {
-            $fields = [];
-            foreach ($_POST as $key => $value) {
-                if (substr($key, 0, 4) == 'new_') {
-                    $fields[str_replace('new_', '', $key)] = $value;
-                }
-            }
-        }
-
-        switch($actionId['action']) {
-            case 'create':
-                $query = 'INSERT INTO ' . $data['id'] . ' ';
-                $keys = [];
-                $values = [];
-                foreach ($fields as $key => $value) {
-                    $keys[] = $key;
-                    $values[] = '"' . $value . '"';
-                }
-
-                $query .= ' (' . implode(',', $keys) . ') VALUES ( ' . implode(',', $values) . ')';
-                db::getInstance()->Query($query);
-                break;
-            case 'save':
-                $query = 'UPDATE ' . $data['id'] . ' SET ';
-                foreach ($fields as $field => $value) {
-                    $query .= $field . ' = "' . $value . '",';
-                }
-                $query = substr($query, 0, -1) . ' WHERE id = :id';
-
-                db::getInstance()->Query($query, ['id' => $actionId['id']]);
-                break;
-            case 'delete':
-                db::getInstance()->Query('UPDATE ' . $data['id'] . ' SET status=:status WHERE id = :id', ['id' => $actionId['id'], 'status' => Status::Deleted]);
-                break;
-        }
-        $fields = db::getInstance()->Select('desc ' . $data['id']);
-        $_items = db::getInstance()->Select('select * from ' . $data['id']);
-        $items = [];
-        foreach ($_items as $item) {
-            $tmp = new $this->controls[$data['id']]($item);
-            $items[] = (array)$tmp;
-        }
-
-        return ['name' => $data['id'],'fields' => $fields, 'items' => $items];
-    }
-
-    protected function getActionId($data)
-    {
-        foreach ($_POST as $key => $value) {
-            if (strpos($key, '__save_') === 0) {
-                $id = explode('__save_', $key)[1];
-                $action = 'save';
-                break;
-            }
-            if (strpos($key, '__delete_') === 0) {
-                $id = explode('__delete_', $key)[1];
-                $action = 'delete';
-                break;
-            }
-            if (strpos($key, '__create') === 0) {
-                $action = 'create';
-                $id = 0;
-            }
-        }
-        return ['id' => $id, 'action' => $action];
-    }
 }

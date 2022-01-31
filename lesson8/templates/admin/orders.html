@@ -1,0 +1,44 @@
+{% include "header.html" %}
+<div class="container">
+    <div class="display-4">Управление заказами</div>
+    <h3>{{content_data.orders.message}}</h3>
+    <form action="" method="post">
+        <div class="lead">Отфильтровать заказы</div>
+        <div class="mb3">
+            <label for="dateFrom" class="form-label">Созданы с:</label>
+            <input type="date" class="w-25 my-1" value="{{content_data.datefrom}}" name="datefrom" id="dateFrom">
+            <label for="dateTo" class="form-label">Созданы по:</label>
+            <input type="date" class="w-25 my-1" value="{{content_data.dateto}}" name="dateto" id="dateTo">
+        </div>
+        <div class="mb-3">
+            <label for="priceFrom" class="form-label">Стоимость от:</label>
+            <input type="number" class="w-25 my-1" value="{{content_data.total_pricefrom}}" name="total_pricefrom" id="priceFrom">
+            <label for="priceTo" class="form-label">Стоимость до:</label>
+            <input type="number" class="w-25 my-1" value="{{content_data.total_priceto}}" name="total_priceto" id="priceTo">
+        </div>
+        <label for="status" class="form-label">Статус заказа</label>
+        <select name="status_id[]" multiple id="status" class="form-control w-25 my-1">
+            <option value="1" {% if 1 in content_data.status_id %} selected {% endif %}>Принят в работу</option>
+            <option value="2" {% if 2 in content_data.status_id %} selected {% endif %}>Обрабатывается</option>
+            <option value="3" {% if 3 in content_data.status_id %} selected {% endif %}>Передан службе доставки</option>
+            <option value="4" {% if 4 in content_data.status_id %} selected {% endif %}>Успешно завершен</option>
+            <option value="5" {% if 5 in content_data.status_id %} selected {% endif %}>Отменен клиентом</option>
+            <option value="6" {% if 6 in content_data.status_id %} selected {% endif %}>Отменен магазином</option>
+        </select>
+        <input type="submit" class="btn btn-primary my-2" value="Показать заказы">
+        <a class="btn btn-secondary my-2" href="index.php?path=admin/orders">Очистить фильтр</a>
+    </form>
+    <div class="row py-2">
+        <div class="col-1">Номер заказа</div>
+        <div class="col-1">Сумма заказа</div>
+        <div class="col-2">Дата заказа</div>
+        <div class="col-2">Статус заказа</div>
+        <div class="col-2">Подробнее о заказе</div>
+        <div class="col-2">Изменить статус</div>
+        <div class="col-2">Сохранить</div>
+        {% for order in content_data.orders %}
+        {% include "order/v-ordersfiltered.html" %}
+        {% endfor %}
+    </div>
+    <script src="/lesson8/js/editorder.js"></script>
+    {% include "footer.html" %}
