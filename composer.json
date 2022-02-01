@@ -1,13 +1,13 @@
 {
     "name": "q/php-advanced",
     "type": "project",
-    "require": {
-        "twig/twig": "1.6.0"
-    },
     "authors": [
         {
             "name": "Kirill Novichkov",
             "email": "kin190173@gmail.com"
         }
-    ]
+    ],
+    "require": {
+        "twig/twig": "1.16"
+    }
 }
