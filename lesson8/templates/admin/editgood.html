@@ -1,0 +1,39 @@
+{% include "header.html" %}
+<div class="container">
+    <form action="" method="post" enctype="multipart/form-data" id="editform">
+        <input type="hidden" name="id" value="{{content_data.goodId}}">
+        <div class="mb-3">
+            <label for="titleInput" class="form-label">Название товара</label>
+            <input type="text" class="form-control" name="title" value="{{content_data.goodTitle}}" id="titleInput"
+                placeholder="Новый товар">
+        </div>
+        <div class="mb-3">
+            <label for="descriptionInput" class="form-label">Описание товара</label>
+            <textarea class="form-control" name="description" id="descriptionInput"
+                rows="3">{{content_data.description}}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="priceInput" class="form-label">Цена</label>
+            <input type="number" class="form-control" name="price" value="{{content_data.price}}" id="priceInput"
+                placeholder="0">
+        </div>
+        <img src="/lesson8/images/fullsize/{{content_data.imageTitle}}"
+            data-src="/lesson8/images/fullsize/{{content_data.imageTitle}}" id="output" alt="" height=400>
+        <div class="mb-3">
+            <div id="fileHelp" class="form-text">Загрузить фото товара</div>
+            <input type="file" accept="image/gif, image/png, image/jpeg" name="photo" class="form-control"
+                id="imageInput" aria-describedby="fileHelp"><br><br>
+        </div>
+        <div class="mb-3">
+            <div class="btn-group">
+                <input type="submit" class="btn btn-primary" value="Применить изменения" id="apply" disabled>
+                <input type="reset" class="btn btn-secondary" value="Отменить изменения">
+                <a class="btn btn-primary" href="index.php?path=admin/goods">Выйти</a>
+            </div>
+        </div>
+        <button class="btn btn-danger my-3" id="delete">Удалить товар</button>
+    </form>
+</div>
+
+<script src="/lesson8/js/editgood.js"></script>
+{% include "footer.html" %}
