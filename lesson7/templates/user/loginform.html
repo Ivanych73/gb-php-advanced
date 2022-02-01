@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="alert alert-secondary my-2" role="alert">
+        {{content_data.message}}
+    </div>
+    <form method = "post">
+        <div class="form-group">
+            <label for="inputLogin">Введите логин</label>
+            <input type="text" class="form-control my-2 w-25" name="login" id="inputLogin" aria-describedby="emailHelp" placeholder="Логин">
+        </div>
+        <div class="form-group">
+            <label for="InputPassword1">Введите пароль</label>
+            <input type="password" class="form-control my-2 w-25" name="pass" id="InputPassword1" placeholder="Пароль">
+        </div>
+        <div class="btn-group">
+            <input type="submit" class="btn btn-primary my-2" value = "Войти">
+        </div>
+    </form>
+</div>

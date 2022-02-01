@@ -1,0 +1,14 @@
+<a href="/lesson7/public/" class="link-primary">Назад в каталог</a>
+<div class="container border border-primary rounded my-3 d-sm-flex justify-content-center">
+    {% if content_data.good.error %}
+    <p>{{content_data.good.error}}</p>
+    {% else %}
+    <figure class="figure">
+        <img src="../images/fullsize/{{ content_data.good.imageTitle }}" class="full-size-image py-2" alt="{{ content_data.good.imageTitle }}">
+        <h3 class="h3">{{ content_data.good.goodTitle }}</h3>
+        <p class = "lead">{{ content_data.good.description }}</p>
+        <p class = "small">Этот котик стоит&nbsp;{{content_data.good.price}}</p>
+        <a class="btn btn-sm btn-outline-secondary buy-button" data-id="{{content_data.good.goodId}}" href="#">Купить</a>
+    </figure>
+    {% endif %}
+</div>

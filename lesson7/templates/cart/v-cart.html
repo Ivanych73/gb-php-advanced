@@ -1,0 +1,45 @@
+<div class="container">
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light is-cart">Корзина Ваших покупок</h1>
+
+                {% if content_data.cart|length == 0 %}
+
+                        <p class="lead">В Вашей корзине пока пусто</p>
+            </div>
+        </div>
+    </section>
+
+                {% else %}
+            </div>
+        </div>
+    </section>
+    
+    {% for good in content_data.cart %}
+
+    <div class="row my-2  item-{{good.goodId}}">
+        <div class="col-4">{% include 'catalog/v-card.html' %}</div>
+        <div class="col-4 d-flex justify-content-around align-items-center">
+            <a class = "btn btn-secondary buy-button" data-id="{{good.goodId}}" href="">Добавить</a>
+            <a class = "btn btn-secondary remove-button" data-id="{{good.goodId}}" href="">Удалить</a>
+        </div>
+        <div class="col-4 d-flex justify-content-center align-items-center">
+            Всего:&nbsp
+            <span class="count-item-{{good.goodId}}">{{good.quantity}}</span>        
+        </div>
+    </div>
+    {% endfor %}
+    <div class="row my-3">
+        <div class="col-6 d-flex justify-content-center">
+            <div class="lead">Общая стоимость корзины составляет <span class="total-price">0</span></div>
+        </div>
+        <div class="col-6 d-flex justify-content-center">
+            <form action="index.php?path=order/edit" method="post">
+                <input type="submit" class = "btn btn-primary" value="Оформить заказ">
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    
+    </div>

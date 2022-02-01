@@ -1,0 +1,22 @@
+{% include "header.html" %}
+<div class="container">
+    <h1 class="display-6">Регистрация нового пользователя</h1>
+    {% if content_data.message %}
+    <div class="alert alert-warning" role="alert">
+        {{ content_data.message}}
+    </div>
+    {% endif %}
+    <form action="" method="post">
+        <div class="form-group py-2">
+            <label for="logininput">Придумайте логин</label>
+            <input type="text" name="login" id="logininput" class = "form-control my-2 w-25">
+        </div>
+        {% include "user/passwordfields.html" %}
+        <div class="lead action-message" role="alert" id = "passwarning">
+            Не указан пароль либо введенные пароли не совпадают!
+        </div>
+        <input class = "btn btn-primary my-2 submit-button" disabled = "true" type="submit" value="Зарегистрироваться">
+    </form>
+</div>
+<script src="/lesson7/js/newuser.js"></script>
+{% include "footer.html" %}

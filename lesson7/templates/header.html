@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ pageTitle }}</title>
+    <link rel="stylesheet" href="/lesson4/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script type="text/javascript" src="/lesson7/js/jquery-3.6.0.min.js"></script>
+    <script src="/lesson7/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="/lesson7/js/main.js"></script>
+</head>
+<body>
+    <header class="p-3 bg-dark text-white">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/lesson7/public/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              <img class="bi me-2" width="40" src = "/lesson7/images/logo.png">
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="/lesson7/public/" class="nav-link px-2 text-secondary">Главная</a></li>
+              <li><a href="index.php?path=cart" class="nav-link px-2 text-white">Корзина</a></li>
+            </ul>
+    
+            <div class="text-end d-flex align-items-center">
+              {% if links.loginMessage %}
+                <p class="text-muted me-2">{{ links.loginMessage }}</p>
+              {% endif %}
+              {% if links.loginLink %}
+                <a class="btn btn-outline-light me-2" href = "{{links.loginLink.href}}">{{links.loginLink.text}}</a>
+              {% endif %}
+              {% if links.personalLink %}
+              <a class="btn btn-outline-light me-2" href = "{{links.personalLink.href}}">{{links.personalLink.text}}</a>
+              {% endif %}
+              {% if links.adminLink %}
+                <a class="btn btn-outline-light me-2" href = "{{links.adminLink.href}}">Панель управления</a>
+              {% endif %}
+              {% if links.regLink %}
+                <a class="btn btn-warning" href = "{{links.regLink.href}}">Зарегистрироваться</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+    </header>

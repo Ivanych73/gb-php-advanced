@@ -1,0 +1,15 @@
+<div class="card shadow-sm">
+    <a href = "index.php?path=detail/{{good.goodId}}">
+        <img class = "m-2" src = "/lesson7/images/thumbnail/{{ good.imageTitle }}" alt = "{{ good.imageTitle }}">
+    </a>
+    <div class="card-body">
+        <p class="card-text">{{good.goodTitle}}</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <a class="btn btn-sm btn-outline-secondary" href = "index.php?path=detail/{{good.goodId}}">Подробнее</a>
+                <a class="btn btn-sm btn-outline-secondary buy-button" data-id="{{good.goodId}}" href="">Купить</a>
+            </div>
+            <small class="text-muted">Стоимость:&nbsp;<span class="price-item-{{good.goodId}}">{{good.price}}</span></small>
+        </div>
+    </div>
+</div>

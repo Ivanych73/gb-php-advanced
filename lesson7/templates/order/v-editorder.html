@@ -1,0 +1,46 @@
+    <div class="container">
+
+        <form method="post" onsubmit="return validatePhpone()" action="index.php?path=order/save">
+            {% include 'user/userfields.html' %}
+
+            <div class="form-check">
+                <input type="checkbox" name="saveCustomer" class="form-check-input" checked="true" value=1 id="remeberCheck">
+                <label class="form-check-label" for="remeberCheck">Запомнить эти данные для следующих заказов</label>
+            </div>
+            {% if content_data.goods|length == 0 %}
+            <p class="lead">В Вашей корзине пусто, оформлять нечего!</p>
+            {% else %}
+            <div class="lead">Детали заказа:</div>
+            <div class="row py-2 w-75">
+                <div class="col-4 fw-bold">Наименование товара</div>
+                <div class="col-4 fw-bold">Количество</div>
+                <div class="col-4 fw-bold">На сумму</div>
+            </div>
+            {% set subtotal = 0 %}
+            {% for good in content_data.goods %}
+            <div class="row py-2 w-75">
+                <div class="col-4">{{good.goodTitle}}</div>
+                <div class="col-4">{{good.quantity}}</div>
+                <div class="col-4">{{good.quantity * good.price}}</div>
+                {% set subtotal = subtotal + good.quantity * good.price %}
+            </div>
+            {% endfor %}
+            <div class="row py-2 w-75">
+                <div class="col-4 fw-bold">Общая стоимость</div>
+                <div class="col-4"></div>
+                <div class="col-4 fw-bold">{{subtotal}}</div>
+            </div>
+            <input type="hidden" name="totalprice" value="{{subtotal}}">
+            <div class="form-group py-3">
+                <label for="TextareaComments">Комментарии к заказу</label>
+                <textarea name="comments" class="form-control w-50" id="TextareaComments" rows="3"></textarea>
+            </div>
+            <a class="btn btn-primary my-2" href="index.php?path=cart">Вернуться в корзину</a>
+            <input type="submit" class="btn btn-primary my-2" value="Оформить заказ">
+        </form>
+
+    </div>
+
+    {% endif %}
+
+<script src="/lesson7/js/validatephone.js"></script>
